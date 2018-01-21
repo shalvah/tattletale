@@ -10,15 +10,11 @@
 
 <!-- We're pulling in Axios for AJAX requests -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.0.min.js"
-        integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
-        crossorigin="anonymous">
-</script>
 <script>
     var postId = "{{ post._id }}";
     var postContent;
     var makeEditable = function (event) {
-        // capture the content of the pos, then replace with editable textarea
+        // capture the content of the post, then replace with editable textarea
         postContent = $("#post-body").html();
         var editableText = $('<textarea id="editable-post-body" class="form-control" />');
         editableText.val(postContent);
