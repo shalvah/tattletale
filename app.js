@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 
 const index = require('./routes/index');
 
@@ -13,4 +12,8 @@ app.set('view engine', 'hbs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/', index);
+
+require('mongoose').connect('mongodb://localhost/tattletale');
 module.exports = app;
