@@ -14,8 +14,16 @@ router.get('/posts/:id', (req, res, next) => {
 });
 
 router.post('/posts/:id', (req, res, next) => {
-    Post.update({_id: req.params.id}, {body: req.body.body})
-        .exec((err, numberAffected) => {
+    Post.findByIdAndUpdate(req.params.id, { body: req.body.body }, (err, post) => {
+            let Pusher = require('pusher');
+            let pusher = new Pusher({
+                appId: process.env.PUSHER_APP_ID,
+                key: process.env.PUSHER_APP_KEY,
+                secret: process.env.PUSHER_APP_SECRET,
+                cluster: process.env.PUSHER_APP_CLUSTER
+            });
+
+            pusher.trigger('notifications', 'post_updated', post, req.headers['x-socket-id']);
             res.send('');
         });
 });

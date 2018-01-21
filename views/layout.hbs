@@ -2,12 +2,47 @@
 <html lang='en'>
 <head>
     <title>{{title}}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <!-- jQuery for easy DOM manipulation -->
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js"
+            integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4="
+            crossorigin="anonymous">
+    </script>
+    <!-- We're pulling in Axios for AJAX requests -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
 <div class="container" style="padding: 50px;">
     {{{body}}}
 </div>
+
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+<script>
+    var pusher = new Pusher('YOUR_APP_KEY', {cluster: 'YOUR_APP_CLUSTER'});
+
+    // retrieve the socket ID once we're connected
+    pusher.connection.bind('connected', function () {
+        // attach the socket ID to all outgoing Axios requests
+        axios.defaults.headers.common['X-Socket-Id'] = pusher.connection.socket_id;
+    });
+
+    Notification.requestPermission();
+    pusher.subscribe('notifications')
+            .bind('post_updated', function (post) {
+                // if we're on the home page, show an "Updated" badge
+                if (window.location.pathname === "/") {
+                    $('a[href="/posts/' + post._id + '"]').append('<span class="badge badge-primary badge-pill">Updated</span>');
+                }
+                var notification = new Notification(post.title + " was just updated. Check it out.");
+                notification.onclick = function (event) {
+                    window.location.href = '/posts/' + post._id;
+                    event.preventDefault();
+                    notification.close();
+                }
+            });
+</script>
 </body>
 </html>
