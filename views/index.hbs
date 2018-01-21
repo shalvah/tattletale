@@ -1,2 +1,10 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="row">
+    <h2>Posts</h2>
+</div>
+<div class="list-group">
+    {{#each posts }}
+        <a href="/posts/{{ this._id }}" class="list-group-item">
+            {{ this.title }}
+        </a>
+    {{/each}}
+</div>
