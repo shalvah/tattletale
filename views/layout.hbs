@@ -21,7 +21,7 @@
 
 <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 <script>
-    var pusher = new Pusher('YOUR_APP_KEY', {cluster: 'YOUR_APP_CLUSTER'});
+    var pusher = new Pusher('YOUR_APP_ID', {cluster: 'YOUR_APP_CLUSTER'});
 
     // retrieve the socket ID once we're connected
     pusher.connection.bind('connected', function () {
