@@ -26,7 +26,7 @@ PUSHER_APP_CLUSTER=your-app-cluster
 
 Look for these lines of JavaScript in `views/layout.hbs`:
 ```javascript
-var pusher = new Pusher('YOUR_APP_ID', {cluster: 'YOUR_APP_CLUSTER'});
+var pusher = new Pusher('YOUR_APP_KEY', {cluster: 'YOUR_APP_CLUSTER'});
 ```
 
 Insert your Pusher app ID and cluster in the appropriate places.
