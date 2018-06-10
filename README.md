@@ -1,6 +1,8 @@
 # tattletale
 Realtime push notifications for your web app, powered by Pusher
 
+[View tutorial](https://pusher.com/tutorials/realtime-notifications-nodejs)
+
 ## Description
 The app's home page shows a list of articles. Each article can be edited by anyone. Whenever an article is edited, a push notification is sent to every other user on the site, and an "Updated" badge displays next to the article name in the article list.
 
