@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const { profileRoute } = require('./routes/profile');
 const index = require('./routes/index');
 const { authMiddleware } = require('./middlewares/auth-middleware');
 
@@ -19,22 +20,24 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(authMiddleware);
-app.use('/', index);
-
 mongoose.connect('mongodb://localhost/tattletale');
 const db = mongoose.connection;
 app.use(session({
-    secret: 'work hard',
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-      mongooseConnection: db,
-    }),
-    cookie: {
-      // one hour
-      maxAge: new Date(Date.now() + (60 * 1000 * 60)),
-      path: '/',
-    },
-  }));
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db,
+  }),
+  cookie: {
+    // one hour
+    maxAge: new Date(Date.now() + (60 * 1000 * 60)),
+    path: '/',
+  },
+}));
+
+profileRoute(app);
+app.use(authMiddleware);
+app.use('/', index);
+
 module.exports = app;
